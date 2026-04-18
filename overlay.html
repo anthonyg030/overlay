@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Racing Sans One', sans-serif;
+  overflow: hidden;
+}
+
+/* 🏁 LIGA LOGO */
+.liga-logo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+}
+
+/* 🪟 GLASS BASE */
+.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,255,168,0.2);
+  border-radius: 14px;
+}
+
+/* 🏆 LEADERBOARD */
+.leaderboard {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  padding: 15px 20px;
+  width: 320px;
+}
+
+.leaderboard.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+}
+
+.leaderboard-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #00FFA8;
+  text-shadow: 0 0 10px rgba(0,255,168,0.5);
+}
+
+.entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  color: #00FFA8;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: all 0.4s ease;
+}
+
+/* 🔥 Highlight bei Update */
+.entry.highlight {
+  background: rgba(0,255,168,0.15);
+  box-shadow: 0 0 15px rgba(0,255,168,0.4);
+  transform: translateY(-2px);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.small-logo {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 6px rgba(0,255,168,0.5));
+}
+
+/* 🏁 BAUCHBINDE */
+.lower-third {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 15px 25px;
+  border-left: 6px solid #00FFA8;
+
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: all 0.6s ease;
+}
+
+.lower-third.glass {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+}
+
+.lower-third.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.team-logo {
+  height: 70px;
+  width: auto;
+}
+
+/* 🏁 TEXT OUTLINE (TV STYLE) */
+.driver {
+  font-size: 36px;
+  color: #00FFA8;
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
+}
+
+.score {
+  font-size: 28px;
+  color: white;
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
+}
+
+/* 📺 TICKER */
+.ticker {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  width: 520px;
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.ticker.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #00FFA8;
+}
+
+.ticker-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 60px;
+  padding-left: 100%;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* 🆚 BATTLE */
+.battle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  opacity: 0;
+}
+
+.battle.animate {
+  animation: battleIntro 2.2s ease forwards;
+}
+
+@keyframes battleIntro {
+
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -270%) scale(1);
+  }
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #00FFA8;
+}
+
+.side img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.vs {
+  font-size: 60px;
+  color: white;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+}
+
+#chaseScore {
+  font-size: 44px;
+  color: white;
+  margin-top: 6px;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🏁 LIGA LOGO -->
+<img class="liga-logo" src="liga.png">
+
+<!-- 🏆 LEADERBOARD -->
+<div class="leaderboard glass">
+  <div class="leaderboard-title">LEADERBOARD</div>
+  <div id="leaderboard"></div>
+</div>
+
+<!-- 🏁 ACTIVE DRIVER -->
+<div class="lower-third glass" id="lowerThird">
+  <img class="team-logo" id="teamLogo">
+  <div>
+    <div class="driver" id="driver"></div>
+    <div class="score" id="score"></div>
+  </div>
+</div>
+
+<!-- 🆚 BATTLE -->
+<div class="battle" id="battle">
+
+  <div class="side">
+    <img id="leadLogo">
+    <div id="leadDriver"></div>
+  </div>
+
+  <div class="vs">VS</div>
+
+  <div class="side">
+    <img id="chaseLogo">
+    <div id="chaseDriver"></div>
+    <div id="chaseScore"></div>
+  </div>
+
+</div>
+
+<!-- 📺 TICKER -->
+<div class="ticker glass">
+  <div class="ticker-text" id="ticker"></div>
+</div>
+
+<script>
+const URL = "https://script.google.com/macros/s/AKfycbySJPFhkbuwZSXck342Wv-jghBm01uMyAbT7klp0ZCvr-S9yyG_wCVMcVbT-yK9arFAkQ/exec";
+
+let lastScores = {};
+let battleState = false;
+
+/* 🔢 SCORE */
+function formatScore(v){
+  const n = Number(v);
+  if(isNaN(n)) return v;
+  return parseFloat(n.toFixed(2)).toString();
+}
+
+function highlight(el){
+  el.classList.add("highlight");
+  setTimeout(()=>el.classList.remove("highlight"),800);
+}
+
+async function loadData(){
+  const res = await fetch(URL);
+  const data = await res.json();
+
+  /* 🏆 LEADERBOARD */
+  const sorted = [...data].sort((a,b)=>b.score-a.score);
+  const medals = ["🥇","🥈","🥉"];
+
+  const lb = document.getElementById("leaderboard");
+  lb.innerHTML = "";
+
+  sorted.slice(0,5).forEach((d,i)=>{
+    const key = d.driver;
+
+    const changed = lastScores[key] !== d.score;
+    lastScores[key] = d.score;
+
+    lb.innerHTML += `
+      <div class="entry ${changed ? "highlight":""}">
+        <div class="left">
+          <span>${medals[i]||i+1}</span>
+          <img class="small-logo" src="${d.logo}">
+          <span>${d.driver}</span>
+        </div>
+        <span>${formatScore(d.score)}</span>
+      </div>
+    `;
+  });
+
+  /* 🏁 ACTIVE DRIVER */
+  const active = data.filter(d=>{
+    const v = String(d.active).toLowerCase();
+    return v==="true" || v==="wahr";
+  });
+
+  const lower = document.getElementById("lowerThird");
+
+  if(active.length === 1){
+    const d = active[0];
+
+    document.getElementById("driver").innerText = d.driver;
+    document.getElementById("score").innerText = formatScore(d.score);
+    document.getElementById("teamLogo").src = d.logo;
+
+    lower.classList.add("show");
+
+  } else {
+    lower.classList.remove("show");
+  }
+
+  /* 🆚 BATTLE */
+  const battle = document.getElementById("battle");
+
+  if(active.length === 2){
+
+    const lead = active[0];
+    const chase = active[1];
+
+    document.getElementById("leadDriver").innerText = lead.driver;
+    document.getElementById("leadLogo").src = lead.logo;
+
+    document.getElementById("chaseDriver").innerText = chase.driver;
+    document.getElementById("chaseLogo").src = chase.logo;
+    document.getElementById("chaseScore").innerText = formatScore(chase.score);
+
+    if(!battleState){
+      battle.classList.add("animate");
+      battleState = true;
+    }
+
+  } else {
+    battle.classList.remove("animate");
+    battleState = false;
+  }
+
+  /* 📺 TICKER */
+  let teams = {};
+  let logos = {};
+
+  data.forEach(d=>{
+    if(!teams[d.team]) teams[d.team]=0;
+    teams[d.team]+=Number(d.score);
+    logos[d.team]=d.logo;
+  });
+
+  document.getElementById("ticker").innerHTML =
+    Object.entries(teams).map(([t,s])=>`
+      <div style="display:flex;align-items:center;gap:15px;min-width:140px;">
+        <img src="${logos[t]}" style="height:45px;">
+        <span style="color:#00FFA8;font-size:22px;">
+          ${formatScore(s)}
+        </span>
+      </div>
+    `).join("");
+}
+
+setInterval(loadData,2000);
+loadData();
+</script>
+
+</body>
+</html>
