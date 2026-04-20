@@ -114,7 +114,7 @@ body {
   width: auto;
 }
 
-/* 🏁 DRIVER NAME */
+/* 🏁 TEXT OUTLINE (TV STYLE) */
 .driver {
   font-size: 36px;
   color: #00FFA8;
@@ -125,10 +125,9 @@ body {
      2px  2px 0 #000;
 }
 
-/* 🏁 ACTIVE DRIVER PUNKTE (JETZT FIX) */
-.points {
-  font-size: 46px;   /* 🔥 größer gemacht */
-  color: #00FFA8;    /* 🔥 gewünschte Farbe */
+.score {
+  font-size: 28px;
+  color: white;
   text-shadow:
     -2px -2px 0 #000,
      2px -2px 0 #000,
@@ -185,6 +184,7 @@ body {
 }
 
 @keyframes battleIntro {
+
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.3);
@@ -254,7 +254,7 @@ body {
   <img class="team-logo" id="teamLogo">
   <div>
     <div class="driver" id="driver"></div>
-    <div class="points" id="points"></div>
+    <div class="score" id="score"></div>
   </div>
 </div>
 
@@ -294,11 +294,41 @@ function formatScore(v){
   return parseFloat(n.toFixed(2)).toString();
 }
 
+function highlight(el){
+  el.classList.add("highlight");
+  setTimeout(()=>el.classList.remove("highlight"),800);
+}
+
 async function loadData(){
   const res = await fetch(URL);
   const data = await res.json();
 
-  /* ACTIVE DRIVER */
+  /* 🏆 LEADERBOARD */
+  const sorted = [...data].sort((a,b)=>b.score-a.score);
+  const medals = ["🥇","🥈","🥉"];
+
+  const lb = document.getElementById("leaderboard");
+  lb.innerHTML = "";
+
+  sorted.slice(0,5).forEach((d,i)=>{
+    const key = d.driver;
+
+    const changed = lastScores[key] !== d.score;
+    lastScores[key] = d.score;
+
+    lb.innerHTML += `
+      <div class="entry ${changed ? "highlight":""}">
+        <div class="left">
+          <span>${medals[i]||i+1}</span>
+          <img class="small-logo" src="${d.logo}">
+          <span>${d.driver}</span>
+        </div>
+        <span>${formatScore(d.score)}</span>
+      </div>
+    `;
+  });
+
+  /* 🏁 ACTIVE DRIVER */
   const active = data.filter(d=>{
     const v = String(d.active).toLowerCase();
     return v==="true" || v==="wahr";
@@ -310,7 +340,7 @@ async function loadData(){
     const d = active[0];
 
     document.getElementById("driver").innerText = d.driver;
-    document.getElementById("points").innerText = formatScore(d.points);
+    document.getElementById("score").innerText = formatScore(d.score);
     document.getElementById("teamLogo").src = d.logo;
 
     lower.classList.add("show");
@@ -318,6 +348,51 @@ async function loadData(){
   } else {
     lower.classList.remove("show");
   }
+
+  /* 🆚 BATTLE */
+  const battle = document.getElementById("battle");
+
+  if(active.length === 2){
+
+    const lead = active[0];
+    const chase = active[1];
+
+    document.getElementById("leadDriver").innerText = lead.driver;
+    document.getElementById("leadLogo").src = lead.logo;
+
+    document.getElementById("chaseDriver").innerText = chase.driver;
+    document.getElementById("chaseLogo").src = chase.logo;
+    document.getElementById("chaseScore").innerText = formatScore(chase.score);
+
+    if(!battleState){
+      battle.classList.add("animate");
+      battleState = true;
+    }
+
+  } else {
+    battle.classList.remove("animate");
+    battleState = false;
+  }
+
+  /* 📺 TICKER */
+  let teams = {};
+  let logos = {};
+
+  data.forEach(d=>{
+    if(!teams[d.team]) teams[d.team]=0;
+    teams[d.team]+=Number(d.score);
+    logos[d.team]=d.logo;
+  });
+
+  document.getElementById("ticker").innerHTML =
+    Object.entries(teams).map(([t,s])=>`
+      <div style="display:flex;align-items:center;gap:15px;min-width:140px;">
+        <img src="${logos[t]}" style="height:45px;">
+        <span style="color:#00FFA8;font-size:22px;">
+          ${formatScore(s)}
+        </span>
+      </div>
+    `).join("");
 }
 
 setInterval(loadData,2000);
