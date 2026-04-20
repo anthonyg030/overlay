@@ -125,9 +125,9 @@ body {
      2px  2px 0 #000;
 }
 
-.points {
+.score {
   font-size: 28px;
-  color: #00FFA8;
+  color: white;
   text-shadow:
     -2px -2px 0 #000,
      2px -2px 0 #000,
@@ -254,7 +254,7 @@ body {
   <img class="team-logo" id="teamLogo">
   <div>
     <div class="driver" id="driver"></div>
-    <div class="score" id="points"></div>
+    <div class="score" id="score"></div>
   </div>
 </div>
 
@@ -340,7 +340,7 @@ async function loadData(){
     const d = active[0];
 
     document.getElementById("driver").innerText = d.driver;
-    document.getElementById("points").innerText = formatScore(d.points);
+    document.getElementById("score").innerText = formatScore(d.score);
     document.getElementById("teamLogo").src = d.logo;
 
     lower.classList.add("show");
@@ -362,7 +362,7 @@ async function loadData(){
 
     document.getElementById("chaseDriver").innerText = chase.driver;
     document.getElementById("chaseLogo").src = chase.logo;
-    document.getElementById("chaseScore").innerText = formatScore(chase.points);
+    document.getElementById("chaseScore").innerText = formatScore(chase.score);
 
     if(!battleState){
       battle.classList.add("animate");
@@ -380,7 +380,7 @@ async function loadData(){
 
   data.forEach(d=>{
     if(!teams[d.team]) teams[d.team]=0;
-    teams[d.team]+=Number(d.points);
+    teams[d.team]+=Number(d.score);
     logos[d.team]=d.logo;
   });
 
