@@ -254,7 +254,7 @@ body {
   <img class="team-logo" id="teamLogo">
   <div>
     <div class="driver" id="driver"></div>
-    <div class="score" id="score"></div>
+    <div class="points" id="points"></div>
   </div>
 </div>
 
@@ -340,7 +340,7 @@ async function loadData(){
     const d = active[0];
 
     document.getElementById("driver").innerText = d.driver;
-    document.getElementById("score").innerText = formatScore(d.score);
+    document.getElementById("points").innerText = formatScore(d.points);
     document.getElementById("teamLogo").src = d.logo;
 
     lower.classList.add("show");
@@ -380,7 +380,7 @@ async function loadData(){
 
   data.forEach(d=>{
     if(!teams[d.team]) teams[d.team]=0;
-    teams[d.team]+=Number(d.score);
+    teams[d.team]+=Number(d.points);
     logos[d.team]=d.logo;
   });
 
