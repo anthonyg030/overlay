@@ -12,91 +12,112 @@ body {
   overflow: hidden;
 }
 
-:root {
-  --green: #00FFA8;
+/* 🏁 LIGA LOGO */
+.liga-logo {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  width: 250px;
 }
 
-/* 🏁 LOGO */
-.liga-logo{
-  position:absolute;
-  top:20px;
-  right:20px;
-  width:250px;
-}
-
-/* 🪟 GLASS */
-.glass{
-  background:rgba(0,0,0,0.55);
-  backdrop-filter:blur(10px);
-  border-radius:14px;
+/* 🪟 GLASS BASE */
+.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,255,168,0.2);
+  border-radius: 14px;
 }
 
 /* 🏆 LEADERBOARD */
-.leaderboard{
-  position:absolute;
-  top:30px;
-  left:30px;
-  width:340px;
-  padding:15px;
+.leaderboard {
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  padding: 15px 20px;
+  width: 320px;
 }
 
-.leaderboard-title{
-  color:var(--green);
-  margin-bottom:10px;
+.leaderboard.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
 }
 
-/* ✔ LOGO FIX */
-.entry{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:var(--green);
-  margin:6px 0;
+.leaderboard-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #00FFA8;
+  text-shadow: 0 0 10px rgba(0,255,168,0.5);
 }
 
-.entry-left{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  color: #00FFA8;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: all 0.4s ease;
 }
 
-.entry-left img{
-  width:24px;
-  height:24px;
-  object-fit:contain;
+/* 🔥 Highlight bei Update */
+.entry.highlight {
+  background: rgba(0,255,168,0.15);
+  box-shadow: 0 0 15px rgba(0,255,168,0.4);
+  transform: translateY(-2px);
 }
 
-/* 🏁 ACTIVE */
-.lower-third{
-  position:absolute;
-  bottom:40px;
-  left:40px;
-  display:flex;
-  gap:20px;
-  padding:15px;
-  border-left:6px solid var(--green);
-  opacity:0;
-  transform:translateX(-120%);
-  transition:0.5s;
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.lower-third.show{
-  opacity:1;
-  transform:translateX(0);
+.small-logo {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 6px rgba(0,255,168,0.5));
 }
 
-.team-logo{
-  height:70px;
+/* 🏁 BAUCHBINDE */
+.lower-third {
+  position: absolute;
+  bottom: 100px;
+  left: 40px;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 15px 25px;
+  border-left: 6px solid #00FFA8;
+
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: all 0.6s ease;
 }
 
-.driver{
-  font-size:36px;
-  color:var(--green);
+.lower-third.glass {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
 }
 
-.points{
-  font-size:46px;
-  color:var(--green);
+.lower-third.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.team-logo {
+  height: 70px;
+  width: auto;
+}
+
+/* 🏁 TEXT OUTLINE (TV STYLE) */
+.driver {
+  font-size: 36px;
+  color: #00FFA8;
   text-shadow:
     -2px -2px 0 #000,
      2px -2px 0 #000,
@@ -104,89 +125,122 @@ body {
      2px  2px 0 #000;
 }
 
-/* 🆚 BATTLE (NO BOUNCE SYSTEM) */
-.battle{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  display:flex;
-  gap:80px;
-  align-items:center;
-
-  opacity:0;
-  pointer-events:none;
-
-  will-change:transform;
-}
-
-.battle.show{
-  opacity:1;
-}
-
-/* 🔥 ONLY INNER MOVES (NO BOUNCE EVER) */
-.battle-inner{
-  display:flex;
-  gap:80px;
-  align-items:center;
-  transform:translateY(0);
-  will-change:transform;
-}
-
-.battle.animate .battle-inner{
-  animation:battleMoveUp 1.25s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-
-@keyframes battleMoveUp{
-  0%{
-    transform:translateY(0);
-  }
-  100%{
-    transform:translateY(-380px);
-  }
-}
-
-.side{
-  text-align:center;
-  color:var(--green);
-}
-
-.vs{
-  font-size:60px;
-  color:var(--green);
+.score {
+  font-size: 28px;
+  color: white;
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
 }
 
 /* 📺 TICKER */
-.ticker{
-  position:absolute;
-  bottom:20px;
-  right:0;
-  width:520px;
-  height:70px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  padding-left:10px;
-  background:rgba(0,0,0,0.55);
-  border-left:4px solid var(--green);
+.ticker {
+  position: absolute;
+  bottom: 100px;
+  right: 0;
+  width: 520px;
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
 }
 
-.ticker-text{
-  display:flex;
-  gap:80px;
-  white-space:nowrap;
-  animation:scroll 35s linear infinite;
+.ticker.glass {
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #00FFA8;
 }
 
-@keyframes scroll{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-50%);}
+.ticker-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 60px;
+  padding-left: 100%;
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* 🆚 BATTLE */
+.battle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  opacity: 0;
+}
+
+.battle.animate {
+  animation: battleIntro 2.2s ease forwards;
+}
+
+@keyframes battleIntro {
+
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -230%) scale(1);
+  }
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #00FFA8;
+}
+
+.side img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.vs {
+  font-size: 60px;
+  color: white;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+}
+
+#chaseScore {
+  font-size: 44px;
+  color: white;
+  margin-top: 6px;
+  text-shadow:
+    -3px -3px 0 #000,
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000;
 }
 </style>
 </head>
 
 <body>
 
+<!-- 🏁 LIGA LOGO -->
 <img class="liga-logo" src="liga.png">
 
 <!-- 🏆 LEADERBOARD -->
@@ -195,132 +249,162 @@ body {
   <div id="leaderboard"></div>
 </div>
 
-<!-- 🏁 ACTIVE -->
+<!-- 🏁 ACTIVE DRIVER -->
 <div class="lower-third glass" id="lowerThird">
   <img class="team-logo" id="teamLogo">
   <div>
     <div class="driver" id="driver"></div>
-    <div class="points" id="points"></div>
+    <div class="score" id="score"></div>
   </div>
 </div>
 
 <!-- 🆚 BATTLE -->
 <div class="battle" id="battle">
-  <div class="battle-inner">
 
-    <div class="side">
-      <img id="leadLogo" height="80">
-      <div id="leadDriver"></div>
-    </div>
-
-    <div class="vs">VS</div>
-
-    <div class="side">
-      <img id="chaseLogo" height="80">
-      <div id="chaseDriver"></div>
-      <div id="chaseScore"></div>
-    </div>
-
+  <div class="side">
+    <img id="leadLogo">
+    <div id="leadDriver"></div>
   </div>
+
+  <div class="vs">VS</div>
+
+  <div class="side">
+    <img id="chaseLogo">
+    <div id="chaseDriver"></div>
+    <div id="chaseScore"></div>
+  </div>
+
 </div>
 
 <!-- 📺 TICKER -->
-<div class="ticker">
+<div class="ticker glass">
   <div class="ticker-text" id="ticker"></div>
 </div>
 
 <script>
-const URL="https://script.google.com/macros/s/AKfycbySJPFhkbuwZSXck342Wv-jghBm01uMyAbT7klp0ZCvr-S9yyG_wCVMcVbT-yK9arFAkQ/exec";
+const URL = "https://script.google.com/macros/s/AKfycbySJPFhkbuwZSXck342Wv-jghBm01uMyAbT7klp0ZCvr-S9yyG_wCVMcVbT-yK9arFAkQ/exec";
 
-const n=v=>Number(v)||0;
-const f=v=>parseFloat(n(v).toFixed(2));
+let lastScores = {};
+let battleState = false;
 
-let battleRunning=false;
-let lastBattleKey="";
+function num(v){
+  return Number(String(v).replace(",", ".")) || 0;
+}
 
-async function load(){
-  const res=await fetch(URL);
-  const data=await res.json();
+/* 🔢 SCORE */
+function formatScore(v){
+  const n = Number(v);
+  if(isNaN(n)) return v;
+  return parseFloat(n.toFixed(2)).toString();
+}
+
+function highlight(el){
+  el.classList.add("highlight");
+  setTimeout(()=>el.classList.remove("highlight"),800);
+}
+
+async function loadData(){
+  const res = await fetch(URL);
+  const data = await res.json();
 
   /* 🏆 LEADERBOARD */
-  const sorted=[...data].sort((a,b)=>n(b.score)-n(a.score));
+  const sorted = [...data].sort((a,b)=>b.score-a.score);
+  const medals = ["🥇","🥈","🥉"];
 
-  document.getElementById("leaderboard").innerHTML =
-    sorted.slice(0,5).map((d,i)=>`
-      <div class="entry">
-        <div class="entry-left">
-          <img src="${d.logo}">
+  const lb = document.getElementById("leaderboard");
+  lb.innerHTML = "";
+
+  sorted.slice(0,5).forEach((d,i)=>{
+    const key = d.driver;
+
+    const changed = lastScores[key] !== d.score;
+    lastScores[key] = d.score;
+
+    lb.innerHTML += `
+      <div class="entry ${changed ? "highlight":""}">
+        <div class="left">
+          <span>${medals[i]||i+1}</span>
+          <img class="small-logo" src="${d.logo}">
           <span>${d.driver}</span>
         </div>
-        <span>${f(d.score)}</span>
+        <span>${formatScore(d.score)}</span>
       </div>
-    `).join("");
+    `;
+  });
 
-  /* 🏁 ACTIVE */
-  const active=data.filter(d=>String(d.active).toLowerCase()=="true");
-  const lower=document.getElementById("lowerThird");
+  /* 🏁 ACTIVE DRIVER */
+  const active = data.filter(d=>{
+    const v = String(d.active).toLowerCase();
+    return v==="true" || v==="wahr";
+  });
 
-  if(active.length==1){
-    const d=active[0];
-    document.getElementById("driver").innerText=d.driver;
-    document.getElementById("points").innerText=f(d.points);
-    document.getElementById("teamLogo").src=d.logo;
+  const lower = document.getElementById("lowerThird");
+
+  if(active.length === 1){
+    const d = active[0];
+
+    document.getElementById("driver").innerText = d.driver;
+    document.getElementById("score").innerText = formatScore(num(d.points));
+    document.getElementById("teamLogo").src = d.logo;
+
     lower.classList.add("show");
-  } else lower.classList.remove("show");
 
-  /* 🆚 BATTLE (ANTI BOUNCE FINAL FIX) */
-  const battle=document.getElementById("battle");
-  const inner=battle.querySelector(".battle-inner");
-
-  if(active.length<2){
-    battle.classList.remove("show","animate");
-    battleRunning=false;
-    return;
+  } else {
+    lower.classList.remove("show");
   }
 
-  const a=active[0], b=active[1];
-  const key=a.driver+"-"+b.driver;
+  /* 🆚 BATTLE */
+  const battle = document.getElementById("battle");
 
-  document.getElementById("leadDriver").innerText=a.driver;
-  document.getElementById("leadLogo").src=a.logo;
+  if(active.length === 2){
 
-  document.getElementById("chaseDriver").innerText=b.driver;
-  document.getElementById("chaseLogo").src=b.logo;
-  document.getElementById("chaseScore").innerText=f(b.points);
+    const lead = active[0];
+    const chase = active[1];
 
-  battle.classList.add("show");
+    document.getElementById("leadDriver").innerText = lead.driver;
+    document.getElementById("leadLogo").src = lead.logo;
 
-  if(!battleRunning || lastBattleKey!==key){
+    document.getElementById("chaseDriver").innerText = chase.driver;
+    document.getElementById("chaseLogo").src = chase.logo;
+    document.getElementById("chaseScore").innerText = formatScore(num(chase.points));
+
+    if(!battleState){
+      battle.classList.add("animate");
+      battleState = true;
+    }
+
+  } else {
     battle.classList.remove("animate");
-    void inner.offsetWidth;
-
-    battle.classList.add("animate");
-
-    battleRunning=true;
-    lastBattleKey=key;
+    battleState = false;
   }
 
   /* 📺 TICKER */
-  let teams={},logos={};
+  let teams = {};
+  let logos = {};
 
-  data.forEach(d=>{
-    const t=d.team;
-    teams[t]=(teams[t]||0)+n(d.points);
-    logos[t]=d.logo;
-  });
+data.forEach(d=>{
+  const team = d.team || "Team";
+  const pts = num(d.points);
 
-  const html=Object.entries(teams).map(([t,s])=>`
-    <div style="display:flex;gap:15px;align-items:center;">
-      <img src="${logos[t]}" height="45">
-      <span style="color:#00FFA8">${f(s)}</span>
-    </div>
-  `).join("");
+  if(!teams[team]) teams[team] = 0;
+  teams[team] += pts;
 
-  document.getElementById("ticker").innerHTML = html + html;
+  logos[team] = d.logo;
+});
+
+  document.getElementById("ticker").innerHTML =
+    Object.entries(teams).map(([t,s])=>`
+      <div style="display:flex;align-items:center;gap:15px;min-width:140px;">
+        <img src="${logos[t]}" style="height:45px;">
+        <span style="color:#00FFA8;font-size:22px;">
+          ${formatScore(s)}
+        </span>
+      </div>
+    `).join("");
 }
 
-setInterval(load,2000);
-load();
+setInterval(loadData,2000);
+loadData();
 </script>
 
 </body>
